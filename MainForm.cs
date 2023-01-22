@@ -48,7 +48,7 @@ public partial class MainForm : Form
 
     private readonly List<string> commonDirectories = new()
         {
-            "config", "defaultconfigs", "global_packs", "mods", "scripts"
+            "config", "defaultconfigs", "global_packs", "mods", "scripts", "thingpacks", 
         };
 
     private string modPackPath;
@@ -89,10 +89,12 @@ public partial class MainForm : Form
         txtLog.AppendText($"ModPack Folder selected. Common modpacks folders have been already checked{Environment.NewLine}");
         if (filesToIgnore.Count > 0)
         {
+            string patternsToIgnore = "";
             foreach (string fileToIgnore in filesToIgnore)
             {
-                txtLog.AppendText($"Files with this pattern will be ignored: {fileToIgnore}{Environment.NewLine}");
+                patternsToIgnore += $"\"{fileToIgnore}\", ";
             }
+            txtLog.AppendText($"Files with this pattern will be ignored: {patternsToIgnore}{Environment.NewLine}");
         }
     }
 
