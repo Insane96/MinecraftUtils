@@ -8,7 +8,7 @@ namespace ServerGenerator;
 public partial class MainForm : Form
 {
 
-    dynamic json;
+    dynamic? json;
     public MainForm()
     {
         InitializeComponent();
@@ -51,7 +51,7 @@ public partial class MainForm : Form
             "config", "defaultconfigs", "global_packs", "mods", "scripts", "thingpacks", 
         };
 
-    private string modPackPath;
+    private string? modPackPath;
     List<string> filesToIgnore = new();
     private void btnSelectModPackFolder_Click(object sender, EventArgs e)
     {
