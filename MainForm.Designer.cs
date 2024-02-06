@@ -32,8 +32,6 @@
             this.chkFolders = new System.Windows.Forms.CheckedListBox();
             this.btnGenerateServerZip = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.cmbGameVersions = new System.Windows.Forms.ComboBox();
-            this.cmbForgeVersion = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btnSelectModPackFolder
@@ -73,30 +71,11 @@
             this.txtLog.Size = new System.Drawing.Size(461, 151);
             this.txtLog.TabIndex = 4;
             // 
-            // cmbGameVersions
-            // 
-            this.cmbGameVersions.FormattingEnabled = true;
-            this.cmbGameVersions.Location = new System.Drawing.Point(12, 41);
-            this.cmbGameVersions.Name = "cmbGameVersions";
-            this.cmbGameVersions.Size = new System.Drawing.Size(220, 23);
-            this.cmbGameVersions.TabIndex = 5;
-            this.cmbGameVersions.SelectedIndexChanged += new System.EventHandler(this.cmbGameVersions_SelectedIndexChanged);
-            // 
-            // cmbForgeVersion
-            // 
-            this.cmbForgeVersion.FormattingEnabled = true;
-            this.cmbForgeVersion.Location = new System.Drawing.Point(248, 41);
-            this.cmbForgeVersion.Name = "cmbForgeVersion";
-            this.cmbForgeVersion.Size = new System.Drawing.Size(225, 23);
-            this.cmbForgeVersion.TabIndex = 6;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(485, 591);
-            this.Controls.Add(this.cmbForgeVersion);
-            this.Controls.Add(this.cmbGameVersions);
             this.Controls.Add(this.txtLog);
             this.Controls.Add(this.btnGenerateServerZip);
             this.Controls.Add(this.chkFolders);
@@ -116,7 +95,5 @@
         private CheckedListBox chkFolders;
         private Button btnGenerateServerZip;
         private TextBox txtLog;
-        private ComboBox cmbGameVersions;
-        private ComboBox cmbForgeVersion;
     }
 }
