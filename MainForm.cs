@@ -109,6 +109,8 @@ public partial class MainForm : Form
         t.ContinueWith(task =>
         {
             ZipFile.CreateFromDirectory(tmpPath, saveFileDialog.FileName);
+            if (chkKeepTmpFolder.Checked)
+                Copy(tmpPath, Path.Combine(Path.GetDirectoryName(saveFileDialog.FileName), Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
             Directory.Delete(tmpPath, true);
             txtLog.AppendText($"Zip created{Environment.NewLine}");
             this.Cursor = Cursors.Default;
