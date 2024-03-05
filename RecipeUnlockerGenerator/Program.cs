@@ -1,9 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Microsoft.VisualBasic;
 
+//TODO listing items is AND and not OR
 const string advancement = """
                            {
                                "parent": "minecraft:recipes/root",
@@ -12,11 +13,7 @@ const string advancement = """
                                        "trigger": "minecraft:inventory_changed",
                                        "conditions": {
                                            "items": [
-                                               {
-                                                   "items": [
-                                                       #list_of_items
-                                                   ]
-                                               }
+                                                #list_of_items
                                            ]
                                        }
                                    },
@@ -154,13 +151,20 @@ foreach (string file in Directory.EnumerateFiles(path, "*.json", SearchOption.Al
     }
 
     Directory.CreateDirectory(Path.GetDirectoryName(Path.Combine(path, modId, "advancements", "recipes", $"{recipePath}")));
-    string ingredientsString = "";
+    StringBuilder ingredientsString = new();
+    bool first = true;
     foreach (string ingr in ingredientsList)
     {
-        ingredientsString += $"\"{ingr}\",{Environment.NewLine}";
+        if (!first)
+            ingredientsString.Append(", ");
+        if (ingr.StartsWith('#'))
+            ingredientsString.Append($"{{\"tag\": \"{ingr.AsSpan(1, ingr.Length - 1)}\"}}");
+        else 
+            ingredientsString.Append($"{{\"items\": [\"{ingr}\"]}}");
+        first = false;
     }
     //Directory.CreateDirectory(Path.Combine(path, modId, "advancements", "recipes"));
-    File.WriteAllText(Path.Combine(path, modId, "advancements", "recipes", $"{recipePath}"), advancement.Replace("#list_of_items", ingredientsString).Replace("#recipe", recipeId.Replace('\\', '/')));
+    File.WriteAllText(Path.Combine(path, modId, "advancements", "recipes", $"{recipePath}"), advancement.Replace("#list_of_items", ingredientsString.ToString()).Replace("#recipe", recipeId.Replace('\\', '/')));
     //if (!types.Contains(type))
     //    types.Add(type);
     //Console.WriteLine("\t" + type);
