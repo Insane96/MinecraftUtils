@@ -1,0 +1,15 @@
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\bin\Debug\net8.0\RecipeUnlockerGenerator.exe
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\bin\Debug\net8.0\RecipeUnlockerGenerator.deps.json
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\bin\Debug\net8.0\RecipeUnlockerGenerator.runtimeconfig.json
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\bin\Debug\net8.0\RecipeUnlockerGenerator.dll
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\bin\Debug\net8.0\RecipeUnlockerGenerator.pdb
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\RecipeUnlockerGenerator.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\RecipeUnlockerGenerator.AssemblyInfoInputs.cache
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\RecipeUnlockerGenerator.AssemblyInfo.cs
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\RecipeUnlockerGenerator.csproj.CoreCompileInputs.cache
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\RecipeUnlockerGenerator.dll
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\refint\RecipeUnlockerGenerator.dll
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\RecipeUnlockerGenerator.pdb
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\RecipeUnlockerGenerator.genruntimeconfig.cache
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\ref\RecipeUnlockerGenerator.dll
+D:\Programming\C#\MinecraftUtils\RecipeUnlockerGenerator\obj\Debug\net8.0\RecipeUnlockerGenerator.sourcelink.json
