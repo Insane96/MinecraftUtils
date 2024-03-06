@@ -161,23 +161,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\delvi\\.nuget\\packages\\": {},
+    "C:\\Users\\alberto_delvillano\\.nuget\\packages\\": {},
+    "C:\\Users\\alberto_delvillano\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programming\\C#\\MinecraftUtils\\RecipeUnlockerGenerator\\RecipeUnlockerGenerator.csproj",
+      "projectUniqueName": "C:\\Users\\alberto_delvillano\\source\\repos\\MinecraftUtils\\RecipeUnlockerGenerator\\RecipeUnlockerGenerator.csproj",
       "projectName": "RecipeUnlockerGenerator",
-      "projectPath": "D:\\Programming\\C#\\MinecraftUtils\\RecipeUnlockerGenerator\\RecipeUnlockerGenerator.csproj",
-      "packagesPath": "C:\\Users\\delvi\\.nuget\\packages\\",
-      "outputPath": "D:\\Programming\\C#\\MinecraftUtils\\RecipeUnlockerGenerator\\obj\\",
+      "projectPath": "C:\\Users\\alberto_delvillano\\source\\repos\\MinecraftUtils\\RecipeUnlockerGenerator\\RecipeUnlockerGenerator.csproj",
+      "packagesPath": "C:\\Users\\alberto_delvillano\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alberto_delvillano\\source\\repos\\MinecraftUtils\\RecipeUnlockerGenerator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Users\\alberto_delvillano\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder",
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\delvi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alberto_delvillano\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alberto_delvillano\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -226,7 +229,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
