@@ -50,7 +50,7 @@ class Program
     static void Main(string[] args)
     {
         Console.Write("Folder path: ");
-        string path = @"C:\Users\alberto_delvillano\Downloads\Quark-4.0-438"; //@"C:\Users\delvi\Desktop\Quark";//Console.ReadLine();
+        string path = @"C:\Users\delvi\Desktop\suppsquared-1.20-1.1.14";//Console.ReadLine();
         if (string.IsNullOrEmpty(path) || !Path.Exists(path))
         {
             KeyPressAndClose("Failed to read path");

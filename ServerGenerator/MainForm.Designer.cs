@@ -41,7 +41,7 @@
             this.btnSelectModPackFolder.Name = "btnSelectModPackFolder";
             this.btnSelectModPackFolder.Size = new System.Drawing.Size(461, 23);
             this.btnSelectModPackFolder.TabIndex = 0;
-            this.btnSelectModPackFolder.Text = "Create unzipped folder";
+            this.btnSelectModPackFolder.Text = "Select Minceraft instance";
             this.btnSelectModPackFolder.UseVisualStyleBackColor = true;
             this.btnSelectModPackFolder.Click += new System.EventHandler(this.btnSelectModPackFolder_Click);
             // 

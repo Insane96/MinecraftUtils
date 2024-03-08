@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "/tvjzUHOgpTJnVwL+o7reZszJmxoJwKq7N5U0htW3tW2WQ5VzY72bBEJvaMF/ZReo6JU3Su3+7QqBj6uUt9GFA==",
+  "dgSpecHash": "jpzNr2tFcg+N3U7ggFnooSeX2Znk/TP8ZcTuYxNf6oY5+KDH+V0Tl/3Te/ssl/cjnuht53wHnZ4nA11HfNjO0g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\alberto_delvillano\\source\\repos\\MinecraftUtils\\RecipeUnlockerGenerator\\RecipeUnlockerGenerator.csproj",
+  "projectFilePath": "D:\\Programming\\C#\\MinecraftUtils\\RecipeUnlockerGenerator\\RecipeUnlockerGenerator.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\alberto_delvillano\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
-    "C:\\Users\\alberto_delvillano\\.nuget\\packages\\system.text.json\\8.0.2\\system.text.json.8.0.2.nupkg.sha512"
+    "C:\\Users\\delvi\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
+    "C:\\Users\\delvi\\.nuget\\packages\\system.text.json\\8.0.2\\system.text.json.8.0.2.nupkg.sha512"
   ],
   "logs": []
 }
