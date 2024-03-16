@@ -50,7 +50,7 @@ class Program
     static void Main(string[] args)
     {
         Console.Write("Folder path: ");
-        string path = @"C:\Users\delvi\Desktop\suppsquared-1.20-1.1.14";//Console.ReadLine();
+        string path = Console.ReadLine();
         if (string.IsNullOrEmpty(path) || !Path.Exists(path))
         {
             KeyPressAndClose("Failed to read path");

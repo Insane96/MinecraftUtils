@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RecipeUnlockerGenerator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b281129a69769813320388a16bd7dee256846f65")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+39e5da82a0e48829a2a098d643dc80b501e20141")]
 [assembly: System.Reflection.AssemblyProductAttribute("RecipeUnlockerGenerator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RecipeUnlockerGenerator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
