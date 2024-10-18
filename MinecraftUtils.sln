@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerGenerator", "ServerGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeUnlockerGenerator", "RecipeUnlockerGenerator\RecipeUnlockerGenerator.csproj", "{95444082-EB85-4A86-9B9C-F3436582E7B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelGenerator", "ModelGenerator\ModelGenerator.csproj", "{28F0160D-6CC1-45A7-82DC-4465DF61291D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{95444082-EB85-4A86-9B9C-F3436582E7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95444082-EB85-4A86-9B9C-F3436582E7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95444082-EB85-4A86-9B9C-F3436582E7B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28F0160D-6CC1-45A7-82DC-4465DF61291D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28F0160D-6CC1-45A7-82DC-4465DF61291D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28F0160D-6CC1-45A7-82DC-4465DF61291D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28F0160D-6CC1-45A7-82DC-4465DF61291D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
