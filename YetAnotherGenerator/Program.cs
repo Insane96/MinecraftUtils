@@ -3,31 +3,150 @@
 using System.Text;
 
 string recipe = """
-                {
-                    "type": "minecraft:item",
-                    "weight": 1,
-                    "name": "minecraft:enchanted_book",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_enchantments",
-                            "enchantments": {
-                                "#enchantment#": 1
-                            }
-                        }
-                    ]
-                }
+                new EnchantmentData("allurement:alleviating", 5),
+                new EnchantmentData("allurement:ascension_curse", 4),
+                new EnchantmentData("allurement:fleeting_curse", 4),
+                new EnchantmentData("allurement:launch", 2, 4, 6),
+                new EnchantmentData("allurement:obedience", 3),
+                new EnchantmentData("allurement:reeling", 3, 6, 9),
+                new EnchantmentData("allurement:reforming", 3),
+                new EnchantmentData("allurement:shockwave", 2, 4, 6, 8, 10),
+                new EnchantmentData("allurement:spread_of_ailments", 3, 6, 9, 12),
+                new EnchantmentData("allurement:vengeance", 3, 6, 9, 12),
+                new EnchantmentData("farmersdelight:backstabbing", 2, 4, 6, 8),
+                new EnchantmentData("iguanatweaksexpanded:absorption", 6),
+                new EnchantmentData("iguanatweaksexpanded:adrenaline", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksexpanded:air_born", 3),
+                new EnchantmentData("iguanatweaksexpanded:air_stealer", 2, 4, 6),
+                new EnchantmentData("iguanatweaksexpanded:armor_piercer", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksexpanded:bane_of_noses", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksexpanded:blasting", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksexpanded:blood_pact_curse", 4),
+                new EnchantmentData("iguanatweaksexpanded:burst_of_arrows", 6),
+                new EnchantmentData("iguanatweaksexpanded:cryo_aspect", 3, 6, 9),
+                new EnchantmentData("iguanatweaksexpanded:double_jump", 5),
+                new EnchantmentData("iguanatweaksexpanded:dumbness_curse", 2),
+                new EnchantmentData("iguanatweaksexpanded:ender_curse", 3),
+                new EnchantmentData("iguanatweaksexpanded:exchange", 3),
+                new EnchantmentData("iguanatweaksexpanded:expanded", 4, 8, 12, 16),
+                new EnchantmentData("iguanatweaksexpanded:enduring", 4, 8, 12),
+                new EnchantmentData("iguanatweaksexpanded:explosive", 2, 4, 6),
+                new EnchantmentData("iguanatweaksexpanded:experience_curse", 4),
+                new EnchantmentData("iguanatweaksexpanded:flat_protection", 6),
+                new EnchantmentData("iguanatweaksexpanded:fragility_curse", 2),
+                new EnchantmentData("iguanatweaksexpanded:gravity_defying", 3),
+                new EnchantmentData("iguanatweaksexpanded:healthy", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksexpanded:hop_curse", 3),
+                new EnchantmentData("iguanatweaksexpanded:hoppy", 2, 4, 6),
+                new EnchantmentData("iguanatweaksexpanded:haste", 4, 8, 12),
+                new EnchantmentData("iguanatweaksexpanded:inefficiency_curse", 2),
+                new EnchantmentData("iguanatweaksexpanded:knowledgeable", 6),
+                new EnchantmentData("iguanatweaksexpanded:lucky_hook", 6),
+                new EnchantmentData("iguanatweaksexpanded:magic_protection", 2, 4, 6, 8, 10),
+                new EnchantmentData("iguanatweaksexpanded:magnetic", 3, 6, 9, 12),
+                new EnchantmentData("iguanatweaksexpanded:melee_protection", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksexpanded:obscurity_curse", 3),
+                new EnchantmentData("iguanatweaksexpanded:padding", 3),
+                new EnchantmentData("iguanatweaksexpanded:part_breaker", 3, 6, 9, 12),
+                new EnchantmentData("iguanatweaksexpanded:rage", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksexpanded:reach", 6),
+                new EnchantmentData("iguanatweaksexpanded:retreat", 3),
+                new EnchantmentData("iguanatweaksexpanded:recovery", 3),
+                new EnchantmentData("iguanatweaksexpanded:short_arm_curse", 2),
+                new EnchantmentData("iguanatweaksexpanded:slow_charge_curse", 3),
+                new EnchantmentData("iguanatweaksexpanded:slow_strike_curse", 2),
+                new EnchantmentData("iguanatweaksexpanded:smartness", 3, 6, 9, 12),
+                new EnchantmentData("iguanatweaksexpanded:soulbound", 3),
+                new EnchantmentData("iguanatweaksexpanded:sprint_pact", 6),
+                new EnchantmentData("iguanatweaksexpanded:static_charge_curse", 3),
+                new EnchantmentData("iguanatweaksexpanded:steady_fall", 6),
+                new EnchantmentData("iguanatweaksexpanded:steel_fall_curse", 3),
+                new EnchantmentData("iguanatweaksexpanded:step_up", 3),
+                new EnchantmentData("iguanatweaksexpanded:swift_strike", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksexpanded:tear_curse", 3),
+                new EnchantmentData("iguanatweaksexpanded:unhurried_curse", 3),
+                new EnchantmentData("iguanatweaksexpanded:unstable_motion_curse", 4),
+                new EnchantmentData("iguanatweaksexpanded:veining", 4, 8, 12),
+                new EnchantmentData("iguanatweaksexpanded:vindication", 3, 6, 9, 12),
+                new EnchantmentData("iguanatweaksexpanded:void_curse", 2),
+                new EnchantmentData("iguanatweaksexpanded:walking_curse", 4),
+                new EnchantmentData("iguanatweaksexpanded:water_coolant", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksexpanded:zippy", 2, 4, 6),
+                new EnchantmentData("iguanatweaksreborn:bane_of_sssss", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksreborn:blast_protection", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksreborn:critical", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksreborn:feather_falling", 2, 4, 6, 8, 10),
+                new EnchantmentData("iguanatweaksreborn:fire_aspect", 3, 6, 9),
+                new EnchantmentData("iguanatweaksreborn:fire_protection", 2, 4, 6, 8, 10),
+                new EnchantmentData("iguanatweaksreborn:knockback", 2, 4, 6),
+                new EnchantmentData("iguanatweaksreborn:luck", 6),
+                new EnchantmentData("iguanatweaksreborn:projectile_protection", 2, 4, 6, 8, 10),
+                new EnchantmentData("iguanatweaksreborn:protection", 6),
+                new EnchantmentData("iguanatweaksreborn:sharpness", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksreborn:smite", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("iguanatweaksreborn:sweeping_edge", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:aqua_affinity", 3),
+                new EnchantmentData("minecraft:bane_of_arthropods", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("minecraft:binding_curse", 4),
+                new EnchantmentData("minecraft:blast_protection", 2, 4, 6, 8, 10),
+                new EnchantmentData("minecraft:channeling", 6),
+                new EnchantmentData("minecraft:depth_strider", 3, 6, 9),
+                new EnchantmentData("minecraft:efficiency", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("minecraft:feather_falling", 2, 4, 6, 8, 10),
+                new EnchantmentData("minecraft:fire_aspect", 3, 6, 9),
+                new EnchantmentData("minecraft:fire_protection", 2, 4, 6, 8, 10),
+                new EnchantmentData("minecraft:flame", 3),
+                new EnchantmentData("minecraft:fortune", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:frost_walker", 3, 6, 9),
+                new EnchantmentData("minecraft:impaling", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("minecraft:infinity", 3, 6, 9, 12, 15),
+                new EnchantmentData("minecraft:knockback", 2, 4, 6),
+                new EnchantmentData("minecraft:looting", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:loyalty", 2, 4, 6, 8),
+                new EnchantmentData("minecraft:luck_of_the_sea", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:lure", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:mending", 3),
+                new EnchantmentData("minecraft:multishot", 3),
+                new EnchantmentData("minecraft:piercing", 2, 4, 6, 8, 10),
+                new EnchantmentData("minecraft:power", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("minecraft:projectile_protection", 2, 4, 6, 8, 10),
+                new EnchantmentData("minecraft:protection", 3, 6, 9, 12, 15),
+                new EnchantmentData("minecraft:punch", 3, 6, 9),
+                new EnchantmentData("minecraft:quick_charge", 2, 4, 6, 8),
+                new EnchantmentData("minecraft:respiration", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:riptide", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:sharpness", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("minecraft:silk_touch", 6),
+                new EnchantmentData("minecraft:smite", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("minecraft:soul_speed", 4, 8, 12, 16),
+                new EnchantmentData("minecraft:sweeping", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:swift_sneak", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:thorns", 3, 6, 9, 12),
+                new EnchantmentData("minecraft:unbreaking", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("minecraft:vanishing_curse", 4),
+                new EnchantmentData("passablefoliage:leaf_walker", 2),
+                new EnchantmentData("shieldsplus:ablaze", 2, 4, 6),
+                new EnchantmentData("shieldsplus:aegis", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("shieldsplus:celestial_guardian", 6),
+                new EnchantmentData("shieldsplus:fast_recovery", 3),
+                new EnchantmentData("shieldsplus:lightweight", 3),
+                new EnchantmentData("shieldsplus:perfect_parry", 6),
+                new EnchantmentData("shieldsplus:recoil", 2, 4, 6),
+                new EnchantmentData("shieldsplus:reflection", 3, 6, 9, 12, 15),
+                new EnchantmentData("shieldsplus:reinforced", 2, 4, 6, 8, 10, 12),
+                new EnchantmentData("supplementaries:stasis", 5)
                 """;
 
-string? path = Console.ReadLine();
+/*string? path = Console.ReadLine();
 if (path == null)
-    return;
-string[] lines = File.ReadAllLines(path);
+    return;*/
+string[] lines = recipe.Replace("new EnchantmentData(", "").Replace(")", "").Split(Environment.NewLine);
 StringBuilder output = new();
 foreach (string line in lines)
 {
-    string book = new(recipe);
-    book = book.Replace("#enchantment#", line);
-    output.Append($"{book},{Environment.NewLine}");
-    //File.WriteAllText(Path.Combine(Path.GetDirectoryName(path), line.Replace(":", "_") + ".json"), output);
+    string[] data = line.Split(',');
+    string enchantment = data[0].Trim();
+    string lvl = data[1].Trim();
+    output.Append($"new EnchantmentData({enchantment}).costPerLevel({lvl}),{Environment.NewLine}");
 }
 Console.WriteLine(output.ToString());
