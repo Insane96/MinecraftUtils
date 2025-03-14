@@ -114,6 +114,7 @@ partial class MainForm
         btnSaveTranslation.TabIndex = 4;
         btnSaveTranslation.Text = "Save Translation";
         btnSaveTranslation.UseVisualStyleBackColor = true;
+        btnSaveTranslation.Click += btnSaveTranslation_Click;
         // 
         // MainForm
         // 
