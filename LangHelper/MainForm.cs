@@ -1,3 +1,4 @@
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -10,12 +11,43 @@ public partial class MainForm : Form
         InitializeComponent();
     }
 
-    private void btnUploadOriginal_Click(object sender, EventArgs e)
+    private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
-        DialogResult dialogResult = openFileDialog1.ShowDialog();
-        if (dialogResult != DialogResult.OK) 
-            return;
-        string json = File.ReadAllText(openFileDialog1.FileName);
+        ColorRowBasedOnContent(dataGridView1.Rows[e.RowIndex]);
+    }
+
+    private void ColorRowBasedOnContent(DataGridViewRow row)
+    {
+        string? original = row.Cells["original"].Value?.ToString()?.Trim();
+        string? translation = row.Cells["translation"].Value?.ToString()?.Trim();
+
+        if (string.IsNullOrEmpty(translation))
+        {
+            row.DefaultCellStyle.BackColor = Color.LightSalmon; // Soft red
+            row.DefaultCellStyle.ForeColor = Color.Black;
+        }
+        else if (string.IsNullOrEmpty(original))
+        {
+            row.DefaultCellStyle.BackColor = Color.Moccasin; // Soft yellow
+            row.DefaultCellStyle.ForeColor = Color.Black;
+        }
+        else
+        {
+            row.DefaultCellStyle.BackColor = Color.White; // Reset to default
+            row.DefaultCellStyle.ForeColor = Color.Black;
+        }
+    }
+    
+    private void ColorRowsBasedOnContent()
+    {
+        foreach (DataGridViewRow row in dataGridView1.Rows)
+        {
+            ColorRowBasedOnContent(row);
+        }
+    }
+
+    private void ImportOriginalFromJson(string json)
+    {
         using JsonDocument doc = JsonDocument.Parse(json);
         JsonElement root = doc.RootElement;
         if (root.ValueKind != JsonValueKind.Object) 
@@ -24,14 +56,11 @@ public partial class MainForm : Form
         {
             dataGridView1.Rows.Add(property.Name, property.Value.ToString(), "");
         }
+        ColorRowsBasedOnContent();
     }
 
-    private void btnUploadTranslation_Click(object sender, EventArgs e)
+    private void ImportTranslationFromJson(string json)
     {
-        DialogResult dialogResult = openFileDialog1.ShowDialog();
-        if (dialogResult != DialogResult.OK) 
-            return;
-        string json = File.ReadAllText(openFileDialog1.FileName);
         using JsonDocument doc = JsonDocument.Parse(json);
         JsonElement root = doc.RootElement;
         if (root.ValueKind != JsonValueKind.Object) 
@@ -39,7 +68,7 @@ public partial class MainForm : Form
         foreach (JsonProperty property in root.EnumerateObject())
         {
             // Try to find a row whose first cell matches the property name.
-            var row = dataGridView1.Rows
+            DataGridViewRow? row = dataGridView1.Rows
                 .Cast<DataGridViewRow>()
                 .FirstOrDefault(r => r.Cells[0].Value?.ToString() == property.Name);
 
@@ -50,6 +79,81 @@ public partial class MainForm : Form
                 // No matching row found: add a new row.
                 dataGridView1.Rows.Add(property.Name, "", property.Value.ToString());
         }
+        ColorRowsBasedOnContent();
+    }
+
+    private void btnLoadOriginal_Click(object sender, EventArgs e)
+    {
+        ContextMenuStrip menu = new();
+        
+        ToolStripMenuItem fromFile = new("From File");
+        fromFile.Click += delegate
+        {
+            DialogResult dialogResult = openFileDialog1.ShowDialog();
+            if (dialogResult != DialogResult.OK) 
+                return;
+            ImportOriginalFromJson(File.ReadAllText(openFileDialog1.FileName));
+        };
+        menu.Items.Add(fromFile);
+        
+        ToolStripMenuItem fromClipboard = new("From Clipboard");
+        fromClipboard.Click += delegate
+        {
+            ImportOriginalFromJson(Clipboard.GetText());
+        };
+        menu.Items.Add(fromClipboard);
+        
+        ToolStripMenuItem fromUrl = new("From URL");
+        fromUrl.Click += async (_, _) =>
+        {
+            string? json = await GetStringFromUrl(Clipboard.GetText());
+            if (json == null)
+            {
+                MessageBox.Show("Failed to get load from URL");
+                return;
+            }
+            ImportOriginalFromJson(json);
+        };
+        menu.Items.Add(fromUrl);
+        
+        menu.Show(Cursor.Position);
+    }
+
+    private void btnLoadTranslation_Click(object sender, EventArgs e)
+    {
+        ContextMenuStrip menu = new();
+        
+        ToolStripMenuItem fromFile = new("From File");
+        fromFile.Click += delegate
+        {
+            DialogResult dialogResult = openFileDialog1.ShowDialog();
+            if (dialogResult != DialogResult.OK) 
+                return;
+            ImportTranslationFromJson(File.ReadAllText(openFileDialog1.FileName));
+        };
+        menu.Items.Add(fromFile);
+        
+        ToolStripMenuItem fromClipboard = new("From Clipboard");
+        fromClipboard.Click += delegate
+        {
+            ImportTranslationFromJson(Clipboard.GetText());
+        };
+        menu.Items.Add(fromClipboard);
+        
+        ToolStripMenuItem fromUrl = new("From URL");
+        fromUrl.Click += async delegate
+        {
+            string? json = await GetStringFromUrl(Clipboard.GetText());
+            if (json == null)
+            {
+                MessageBox.Show("Failed to get load from URL");
+                return;
+            }
+            ImportTranslationFromJson(json);
+        };
+        menu.Items.Add(fromUrl);
+        
+        menu.Show(Cursor.Position);
     }
 
     private void btnSaveTranslation_Click(object sender, EventArgs e)
@@ -80,7 +184,7 @@ public partial class MainForm : Form
         }
 
         // Serialize the JsonObject to a JSON string with indentation.
-        string jsonString = jObject.ToJsonString(new JsonSerializerOptions { WriteIndented = true });
+        string jsonString = jObject.ToJsonString(new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
 
         SaveFileDialog saveFileDialog = new();
         saveFileDialog.Filter = "Json file|*.json";
@@ -88,4 +192,19 @@ public partial class MainForm : Form
             return;
         File.WriteAllText(saveFileDialog.FileName, jsonString);
     }
+    
+    public static async Task<string?> GetStringFromUrl(string url)
+    {
+        try
+        {
+            using HttpClient client = new();
+            return await client.GetStringAsync(url);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error fetching JSON: {ex.Message}");
+        }
+        return null;
+    }
+
 }

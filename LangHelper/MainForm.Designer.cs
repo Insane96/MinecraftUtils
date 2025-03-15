@@ -33,8 +33,8 @@ partial class MainForm
         key = new System.Windows.Forms.DataGridViewTextBoxColumn();
         original = new System.Windows.Forms.DataGridViewTextBoxColumn();
         translation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-        btnUploadOriginal = new System.Windows.Forms.Button();
-        btnUploadTranslation = new System.Windows.Forms.Button();
+        btnLoadOriginal = new System.Windows.Forms.Button();
+        btnLoadTranslation = new System.Windows.Forms.Button();
         openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
         txtSelectedCell = new System.Windows.Forms.TextBox();
         btnSaveTranslation = new System.Windows.Forms.Button();
@@ -49,12 +49,16 @@ partial class MainForm
         dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
         dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
         dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-        dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { key, original, translation });
+        dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+        {
+            key, original, translation
+        });
         dataGridView1.Location = new System.Drawing.Point(12, 47);
         dataGridView1.Name = "dataGridView1";
         dataGridView1.Size = new System.Drawing.Size(1034, 612);
         dataGridView1.TabIndex = 0;
         dataGridView1.Text = "dataGridView1";
+        dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
         // 
         // key
         // 
@@ -73,25 +77,25 @@ partial class MainForm
         translation.HeaderText = "translation";
         translation.Name = "translation";
         // 
-        // btnUploadOriginal
+        // btnLoadOriginal
         // 
-        btnUploadOriginal.Location = new System.Drawing.Point(12, 10);
-        btnUploadOriginal.Name = "btnUploadOriginal";
-        btnUploadOriginal.Size = new System.Drawing.Size(193, 31);
-        btnUploadOriginal.TabIndex = 1;
-        btnUploadOriginal.Text = "Open Original";
-        btnUploadOriginal.UseVisualStyleBackColor = true;
-        btnUploadOriginal.Click += btnUploadOriginal_Click;
+        btnLoadOriginal.Location = new System.Drawing.Point(12, 10);
+        btnLoadOriginal.Name = "btnLoadOriginal";
+        btnLoadOriginal.Size = new System.Drawing.Size(193, 31);
+        btnLoadOriginal.TabIndex = 1;
+        btnLoadOriginal.Text = "Open Original";
+        btnLoadOriginal.UseVisualStyleBackColor = true;
+        btnLoadOriginal.Click += btnLoadOriginal_Click;
         // 
-        // btnUploadTranslation
+        // btnLoadTranslation
         // 
-        btnUploadTranslation.Location = new System.Drawing.Point(211, 10);
-        btnUploadTranslation.Name = "btnUploadTranslation";
-        btnUploadTranslation.Size = new System.Drawing.Size(193, 31);
-        btnUploadTranslation.TabIndex = 2;
-        btnUploadTranslation.Text = "Open Translation";
-        btnUploadTranslation.UseVisualStyleBackColor = true;
-        btnUploadTranslation.Click += btnUploadTranslation_Click;
+        btnLoadTranslation.Location = new System.Drawing.Point(211, 10);
+        btnLoadTranslation.Name = "btnLoadTranslation";
+        btnLoadTranslation.Size = new System.Drawing.Size(193, 31);
+        btnLoadTranslation.TabIndex = 2;
+        btnLoadTranslation.Text = "Open Translation";
+        btnLoadTranslation.UseVisualStyleBackColor = true;
+        btnLoadTranslation.Click += btnLoadTranslation_Click;
         // 
         // openFileDialog1
         // 
@@ -121,8 +125,8 @@ partial class MainForm
         ClientSize = new System.Drawing.Size(1057, 730);
         Controls.Add(btnSaveTranslation);
         Controls.Add(txtSelectedCell);
-        Controls.Add(btnUploadTranslation);
-        Controls.Add(btnUploadOriginal);
+        Controls.Add(btnLoadTranslation);
+        Controls.Add(btnLoadOriginal);
         Controls.Add(dataGridView1);
         ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
         ResumeLayout(false);
@@ -137,8 +141,8 @@ partial class MainForm
 
     private System.Windows.Forms.DataGridViewTextBoxColumn key;
 
-    private System.Windows.Forms.Button btnUploadOriginal;
-    private System.Windows.Forms.Button btnUploadTranslation;
+    private System.Windows.Forms.Button btnLoadOriginal;
+    private System.Windows.Forms.Button btnLoadTranslation;
 
     private System.Windows.Forms.DataGridViewTextBoxColumn original;
     private System.Windows.Forms.DataGridViewTextBoxColumn translation;
