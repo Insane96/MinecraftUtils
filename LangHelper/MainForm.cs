@@ -1,6 +1,9 @@
+using System.Diagnostics;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using DeepL;
+using DeepL.Model;
 
 namespace LangHelper;
 
@@ -191,6 +194,39 @@ public partial class MainForm : Form
         if (saveFileDialog.ShowDialog() != DialogResult.OK) 
             return;
         File.WriteAllText(saveFileDialog.FileName, jsonString);
+    }
+    
+    private async void btnTranslate_Click(object sender, EventArgs e)
+    {
+        await TranslateAllAsync();
+    }
+    
+    private async Task TranslateAllAsync()
+    {
+        string? apiKey = Environment.GetEnvironmentVariable("deepl_api_key");
+        if (apiKey == null)
+        {
+            MessageBox.Show("Please set the deepl_api_key environment variable.");
+            return;
+        }
+        Translator translator = new(apiKey);
+        foreach (DataGridViewRow row in dataGridView1.Rows)
+        {
+            string? original = row.Cells["original"].Value?.ToString()?.Trim();
+            string? translation = row.Cells["translation"].Value?.ToString()?.Trim();
+
+            if (!string.IsNullOrEmpty(translation))
+                continue;
+            if (string.IsNullOrEmpty(original))
+                continue;
+
+            // Await the translation result
+            TextResult translatedText = await translator.TranslateTextAsync(original, "EN", "IT");
+
+            // Update the DataGridView with the translation
+            row.Cells["translation"].Value = translatedText.Text;
+            Debug.WriteLine(translatedText.BilledCharacters);
+        }
     }
     
     public static async Task<string?> GetStringFromUrl(string url)

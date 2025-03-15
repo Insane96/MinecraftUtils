@@ -38,6 +38,7 @@ partial class MainForm
         openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
         txtSelectedCell = new System.Windows.Forms.TextBox();
         btnSaveTranslation = new System.Windows.Forms.Button();
+        btnTranslate = new System.Windows.Forms.Button();
         ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
         SuspendLayout();
         // 
@@ -112,6 +113,7 @@ partial class MainForm
         // 
         // btnSaveTranslation
         // 
+        btnSaveTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right));
         btnSaveTranslation.Location = new System.Drawing.Point(853, 10);
         btnSaveTranslation.Name = "btnSaveTranslation";
         btnSaveTranslation.Size = new System.Drawing.Size(193, 31);
@@ -120,9 +122,21 @@ partial class MainForm
         btnSaveTranslation.UseVisualStyleBackColor = true;
         btnSaveTranslation.Click += btnSaveTranslation_Click;
         // 
+        // btnTranslate
+        // 
+        btnTranslate.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right));
+        btnTranslate.Location = new System.Drawing.Point(654, 10);
+        btnTranslate.Name = "btnTranslate";
+        btnTranslate.Size = new System.Drawing.Size(193, 31);
+        btnTranslate.TabIndex = 4;
+        btnTranslate.Text = "Translate Missing";
+        btnTranslate.UseVisualStyleBackColor = true;
+        btnTranslate.Click += btnTranslate_Click;
+        // 
         // MainForm
         // 
         ClientSize = new System.Drawing.Size(1057, 730);
+        Controls.Add(btnTranslate);
         Controls.Add(btnSaveTranslation);
         Controls.Add(txtSelectedCell);
         Controls.Add(btnLoadTranslation);
@@ -132,6 +146,7 @@ partial class MainForm
         ResumeLayout(false);
         PerformLayout();
     }
+    private System.Windows.Forms.Button btnTranslate;
 
     private System.Windows.Forms.Button btnSaveTranslation;
 
