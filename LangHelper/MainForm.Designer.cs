@@ -39,6 +39,7 @@ partial class MainForm
         txtSelectedCell = new System.Windows.Forms.TextBox();
         btnSaveTranslation = new System.Windows.Forms.Button();
         btnTranslate = new System.Windows.Forms.Button();
+        btnTranslateSelectedRows = new System.Windows.Forms.Button();
         ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
         SuspendLayout();
         // 
@@ -133,9 +134,21 @@ partial class MainForm
         btnTranslate.UseVisualStyleBackColor = true;
         btnTranslate.Click += btnTranslate_Click;
         // 
+        // btnTranslateSelectedRows
+        // 
+        btnTranslateSelectedRows.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right));
+        btnTranslateSelectedRows.Location = new System.Drawing.Point(455, 10);
+        btnTranslateSelectedRows.Name = "btnTranslateSelectedRows";
+        btnTranslateSelectedRows.Size = new System.Drawing.Size(193, 31);
+        btnTranslateSelectedRows.TabIndex = 4;
+        btnTranslateSelectedRows.Text = "Translate Selected Rows";
+        btnTranslateSelectedRows.UseVisualStyleBackColor = true;
+        btnTranslateSelectedRows.Click += btnTranslateSelectedRows_Click;
+        // 
         // MainForm
         // 
         ClientSize = new System.Drawing.Size(1057, 730);
+        Controls.Add(btnTranslateSelectedRows);
         Controls.Add(btnTranslate);
         Controls.Add(btnSaveTranslation);
         Controls.Add(txtSelectedCell);
@@ -146,6 +159,7 @@ partial class MainForm
         ResumeLayout(false);
         PerformLayout();
     }
+    private System.Windows.Forms.Button btnTranslateSelectedRows;
     private System.Windows.Forms.Button btnTranslate;
 
     private System.Windows.Forms.Button btnSaveTranslation;

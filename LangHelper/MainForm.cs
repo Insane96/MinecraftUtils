@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Diagnostics;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -9,6 +10,8 @@ namespace LangHelper;
 
 public partial class MainForm : Form
 {
+    static Translator? DeepLTranslator = null;
+    
     public MainForm()
     {
         InitializeComponent();
@@ -24,14 +27,14 @@ public partial class MainForm : Form
         string? original = row.Cells["original"].Value?.ToString()?.Trim();
         string? translation = row.Cells["translation"].Value?.ToString()?.Trim();
 
-        if (string.IsNullOrEmpty(translation))
-        {
-            row.DefaultCellStyle.BackColor = Color.LightSalmon; // Soft red
-            row.DefaultCellStyle.ForeColor = Color.Black;
-        }
-        else if (string.IsNullOrEmpty(original))
+        if (string.IsNullOrEmpty(original))
         {
             row.DefaultCellStyle.BackColor = Color.Moccasin; // Soft yellow
+            row.DefaultCellStyle.ForeColor = Color.Black;
+        }
+        else if (string.IsNullOrEmpty(translation))
+        {
+            row.DefaultCellStyle.BackColor = Color.LightSalmon; // Soft red
             row.DefaultCellStyle.ForeColor = Color.Black;
         }
         else
@@ -198,35 +201,44 @@ public partial class MainForm : Form
     
     private async void btnTranslate_Click(object sender, EventArgs e)
     {
-        await TranslateAllAsync();
+        await TranslateParallelAsync(dataGridView1.Rows);
     }
     
-    private async Task TranslateAllAsync()
+    private async void btnTranslateSelectedRows_Click(object sender, EventArgs e)
     {
-        string? apiKey = Environment.GetEnvironmentVariable("deepl_api_key");
-        if (apiKey == null)
-        {
-            MessageBox.Show("Please set the deepl_api_key environment variable.");
+        await TranslateParallelAsync(dataGridView1.SelectedRows);
+    }
+    
+    private async Task TranslateParallelAsync(IList rows)
+    {
+        if (GetTranslator() == null)
             return;
-        }
-        Translator translator = new(apiKey);
-        foreach (DataGridViewRow row in dataGridView1.Rows)
+        List<Task> translationTasks = [];
+
+        foreach (DataGridViewRow row in rows)
         {
             string? original = row.Cells["original"].Value?.ToString()?.Trim();
             string? translation = row.Cells["translation"].Value?.ToString()?.Trim();
 
-            if (!string.IsNullOrEmpty(translation))
-                continue;
-            if (string.IsNullOrEmpty(original))
+            if (!string.IsNullOrEmpty(translation) || string.IsNullOrEmpty(original))
                 continue;
 
-            // Await the translation result
-            TextResult translatedText = await translator.TranslateTextAsync(original, "EN", "IT");
+            // Create a task for each translation
+            Task task = Task.Run(async () =>
+            {
+                TextResult translatedText = await GetTranslator().TranslateTextAsync(original, "EN", "IT");
 
-            // Update the DataGridView with the translation
-            row.Cells["translation"].Value = translatedText.Text;
-            Debug.WriteLine(translatedText.BilledCharacters);
+                // Update the DataGridView with the translation
+                row.Cells["translation"].Value = translatedText.Text;
+                Debug.WriteLine(translatedText.BilledCharacters);
+                ColorRowBasedOnContent(row);
+            });
+
+            translationTasks.Add(task);
         }
+
+        await Task.WhenAll(translationTasks); // Wait for all translations to complete
+        MessageBox.Show("Translation completed!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
     
     public static async Task<string?> GetStringFromUrl(string url)
@@ -242,5 +254,19 @@ public partial class MainForm : Form
         }
         return null;
     }
-
+    
+    private Translator? GetTranslator()
+    {
+        if (DeepLTranslator != null)
+            return DeepLTranslator;
+        
+        string? apiKey = Environment.GetEnvironmentVariable("deepl_api_key");
+        if (apiKey != null)
+        {
+            DeepLTranslator = new(apiKey);
+            return DeepLTranslator;
+        };
+        MessageBox.Show("Please set the 'deepl_api_key' environment variable.");
+        return DeepLTranslator;
+    }
 }
