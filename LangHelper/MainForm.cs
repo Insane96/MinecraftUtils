@@ -10,7 +10,7 @@ namespace LangHelper;
 
 public partial class MainForm : Form
 {
-    static Translator? DeepLTranslator = null;
+    static Translator? DeepLTranslator;
     
     public MainForm()
     {
