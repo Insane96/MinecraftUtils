@@ -22,6 +22,29 @@ public partial class MainForm : Form
         ColorRowBasedOnContent(dataGridView1.Rows[e.RowIndex]);
     }
 
+    private void UpdateRowCount()
+    {
+        int translated = 0;
+        int toTranslate = 0;
+        int invalid = 0;
+        foreach (DataGridViewRow row in dataGridView1.Rows)
+        {
+            string? original = row.Cells["original"].Value?.ToString()?.Trim();
+            string? translation = row.Cells["translation"].Value?.ToString()?.Trim();
+            if (string.IsNullOrEmpty(original))
+            {
+                invalid++;
+                continue;
+            }
+            if (!string.IsNullOrEmpty(translation))
+            {
+                translated++;
+            }
+            toTranslate++;
+        }
+        this.Text = $"LangHelper - Translated: {translated} ({(translated / (float)toTranslate * 100f):F1}%), To translate: {toTranslate}, Invalid: {invalid}";
+    }
+    
     private void ColorRowBasedOnContent(DataGridViewRow row)
     {
         string? original = row.Cells["original"].Value?.ToString()?.Trim();
@@ -42,6 +65,7 @@ public partial class MainForm : Form
             row.DefaultCellStyle.BackColor = Color.White; // Reset to default
             row.DefaultCellStyle.ForeColor = Color.Black;
         }
+        UpdateRowCount();
     }
     
     private void ColorRowsBasedOnContent()
