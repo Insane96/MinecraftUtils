@@ -15,6 +15,8 @@ public partial class MainForm : Form
     public MainForm()
     {
         InitializeComponent();
+        dataGridView1.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+        dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
     }
 
     private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -42,7 +44,17 @@ public partial class MainForm : Form
             }
             toTranslate++;
         }
-        this.Text = $"LangHelper - Translated: {translated} ({(translated / (float)toTranslate * 100f):F1}%), To translate: {toTranslate}, Invalid: {invalid}";
+        if (this.InvokeRequired)
+        {
+            this.Invoke(() =>
+            {
+                this.Text = $"LangHelper - Translated: {translated} ({translated / (float)toTranslate * 100f:F1}%), To translate: {toTranslate}, Invalid: {invalid}";
+            });
+        }
+        else
+        {
+            this.Text = $"LangHelper - Translated: {translated} ({translated / (float)toTranslate * 100f:F1}%), To translate: {toTranslate}, Invalid: {invalid}";
+        }
     }
     
     private void ColorRowBasedOnContent(DataGridViewRow row)
@@ -237,10 +249,17 @@ public partial class MainForm : Form
     {
         if (GetTranslator() == null)
             return;
+        
+        SemaphoreSlim semaphore = new(10); // Max 10 requests
         List<Task> translationTasks = [];
+        CancellationTokenSource cts = new();
+        bool errorOccurred = false;
 
         foreach (DataGridViewRow row in rows)
         {
+            if (cts.IsCancellationRequested)
+                break;
+
             string? original = row.Cells["original"].Value?.ToString()?.Trim();
             string? translation = row.Cells["translation"].Value?.ToString()?.Trim();
 
@@ -250,19 +269,48 @@ public partial class MainForm : Form
             // Create a task for each translation
             Task task = Task.Run(async () =>
             {
-                TextResult translatedText = await GetTranslator().TranslateTextAsync(original, "EN", "IT");
+                await semaphore.WaitAsync(); // Wait free slot
 
-                // Update the DataGridView with the translation
-                row.Cells["translation"].Value = translatedText.Text;
-                Debug.WriteLine(translatedText.BilledCharacters);
-                ColorRowBasedOnContent(row);
-            });
+                try
+                {
+                    TextResult translatedText = await GetTranslator().TranslateTextAsync(original, "EN", "IT");
+
+                    this.Invoke(() =>
+                    {
+                        row.Cells["translation"].Value = translatedText.Text;
+                        Debug.WriteLine(translatedText.BilledCharacters);
+                        ColorRowBasedOnContent(row);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    errorOccurred = true;
+                    cts.Cancel();
+                    this.Invoke(() =>
+                    {
+                        Console.WriteLine($"Failed translating: {ex.Message}");
+                    });
+                }
+                finally
+                {
+                    semaphore.Release(); // Free the slot
+                }
+            }, cts.Token);
 
             translationTasks.Add(task);
         }
-
-        await Task.WhenAll(translationTasks); // Wait for all translations to complete
-        MessageBox.Show("Translation completed!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        try
+        {
+            await Task.WhenAll(translationTasks);
+            if (!errorOccurred)
+            {
+                MessageBox.Show("Translation completed!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            MessageBox.Show("Translation canceled!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
     
     public static async Task<string?> GetStringFromUrl(string url)
