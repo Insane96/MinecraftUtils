@@ -1,7 +1,5 @@
-using Newtonsoft.Json.Linq;
 using System.IO.Compression;
-using System.Net;
-using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace ServerGenerator;
 
@@ -17,7 +15,7 @@ public partial class MainForm : Form
 
     private readonly List<string> commonDirectories = new()
     {
-        "config", "defaultconfigs", "global_packs", "mods", "scripts", "thingpacks",
+        "config", "datapacks", "defaultconfigs", "global_packs", "mods", "scripts", "thingpacks",
     };
 
     private string? modPackPath;
