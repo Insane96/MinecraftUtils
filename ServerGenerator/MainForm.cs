@@ -215,11 +215,24 @@ public partial class MainForm : Form
         };
     }
 
+    private static readonly string InstallerCachePath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ServerGenerator", "installers");
+
     private async Task<bool> DownloadLoaderInstaller(string path, ModLoader modLoader, string version)
     {
         string url = GetInstallerUrl(modLoader, version);
+        string fileName = GetInstallerFileName(modLoader, version);
+        string cacheDirectory = Path.Combine(InstallerCachePath, modLoader.ToString());
+        string cachedFile = Path.Combine(cacheDirectory, fileName);
         try
         {
+            if (File.Exists(cachedFile))
+            {
+                File.Copy(cachedFile, Path.Combine(path, fileName), true);
+                txtLog.AppendText($"{modLoader} installer taken from cache{Environment.NewLine}");
+                return true;
+            }
+
             using HttpClient client = new();
             using var httpResult = await client.GetAsync(url);
             if (!httpResult.IsSuccessStatusCode)
@@ -228,9 +241,17 @@ public partial class MainForm : Form
                 return false;
             }
 
-            using var resultStream = await httpResult.Content.ReadAsStreamAsync();
-            using var fileStream = File.Create(Path.Combine(path, GetInstallerFileName(modLoader, version)));
-            await resultStream.CopyToAsync(fileStream);
+            // Download to a temporary file first, so an interrupted download never ends up in the cache
+            Directory.CreateDirectory(cacheDirectory);
+            string partialFile = cachedFile + ".part";
+            using (var resultStream = await httpResult.Content.ReadAsStreamAsync())
+            using (var fileStream = File.Create(partialFile))
+            {
+                await resultStream.CopyToAsync(fileStream);
+            }
+            File.Move(partialFile, cachedFile, true);
+
+            File.Copy(cachedFile, Path.Combine(path, fileName), true);
             txtLog.AppendText($"{modLoader} installer downloaded{Environment.NewLine}");
             return true;
         }
