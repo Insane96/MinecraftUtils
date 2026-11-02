@@ -55,6 +55,8 @@
             // 
             // chkKeepTmpFolder
             // 
+            this.chkKeepTmpFolder.Checked = true;
+            this.chkKeepTmpFolder.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkKeepTmpFolder.Location = new System.Drawing.Point(12, 370);
             this.chkKeepTmpFolder.Name = "chkKeepTmpFolder";
             this.chkKeepTmpFolder.Size = new System.Drawing.Size(461, 20);
