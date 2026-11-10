@@ -160,20 +160,9 @@ public class Builder(Instance instance, PackConfig config, string version, strin
         return [.. Encoding.UTF8.GetPreamble(), .. Encoding.UTF8.GetBytes(sb.ToString())];
     }
 
-    private List<string> ReadClientMods()
-    {
-        string path = Path.Combine(InstancePath, config.ClientModsFile);
-        if (!File.Exists(path))
-        {
-            Log.Warn($"{config.ClientModsFile} not found, no client-only mods left out of the server pack");
-            return [];
-        }
-        // Skip empty lines and comments: an empty prefix would match every file
-        return File.ReadAllLines(path)
-            .Select(line => line.Trim())
-            .Where(line => line.Length > 0 && !line.StartsWith('#'))
-            .ToList();
-    }
+    private List<string> ReadClientMods() =>
+        // Skip empty prefixes: they would match every file
+        config.ClientMods.Select(prefix => prefix.Trim()).Where(prefix => prefix.Length > 0).ToList();
 
     /// <summary>Files under <paramref name="folder"/> as (path relative to <paramref name="root"/> with '/', full path), sorted.</summary>
     private IEnumerable<(string Relative, string Full)> EnumerateFiles(string folder, string? root = null)

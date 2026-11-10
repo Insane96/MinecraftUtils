@@ -22,8 +22,11 @@ public class PackConfig
     /// relative to the instance (with '/') when the pattern contains a '/', e.g. "config/spark/tmp-client/*".
     /// </summary>
     public List<string> Exclude { get; set; } = ["*.toml.bak"];
-    /// <summary>File with the name prefixes of client-only mods, left out of the server pack.</summary>
-    public string ClientModsFile { get; set; } = "clientmods.txt";
+    /// <summary>
+    /// File name prefixes (case-insensitive) of client-only mods, left out of the server pack. They match in every
+    /// server folder, so a mod's config files are left out too when they start the same way.
+    /// </summary>
+    public List<string> ClientMods { get; set; } = [];
     public CurseForgeConfig? CurseForge { get; set; }
     public BisectConfig? Bisect { get; set; }
 
