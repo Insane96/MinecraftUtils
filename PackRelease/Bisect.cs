@@ -302,7 +302,9 @@ public class Rclone(string host, int port, string user, string password)
     public async Task Sync(string localDir, string remoteDir, string[] flags)
     {
         obscuredPassword ??= await Obscure(password);
-        await Run(["sync", localDir, $":sftp:{remoteDir}", "--stats-one-line", "--stats", "0", .. flags], new()
+        // --inplace: Pterodactyl's SFTP can't rename over an existing file, so rclone's default
+        // upload to a .partial file and rename fails for every file that is replaced
+        await Run(["sync", localDir, $":sftp:{remoteDir}", "--stats-one-line", "--stats", "0", "--inplace", .. flags], new()
         {
             ["RCLONE_SFTP_HOST"] = host,
             ["RCLONE_SFTP_PORT"] = port.ToString(),
