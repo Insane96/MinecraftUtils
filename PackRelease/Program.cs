@@ -7,15 +7,18 @@ const string usage = """
     Commands:
       build      Builds the CurseForge client zip and the server pack from a CurseForge instance
       publish    Uploads the zips of the version to CurseForge, the server pack as an additional file
-      release    build, then publish
+      release    build, then publish (and deploy with --deploy)
+      deploy     Updates the BisectHosting server: chat warning, stop, world archive, mirror of the
+                 server pack folders through SFTP, start, then download of the archive
 
     Options:
       --instance <path>   Instance folder (default: current folder)
       --version <x.y.z>   Version (default: the first heading of changelog.md, which can't be "# Upcoming")
       --out <path>        Output folder (default: "exportDir" in packrelease.json)
       --force             build: overwrite existing zips of the same version
-      --dry-run           publish: check everything and show what would be uploaded, without uploading
+      --dry-run           publish/deploy: check everything and show what would change, without changing anything
       --allow-dirty       publish: allow uncommitted changes in the instance's git repository
+      --deploy            release: deploy after publishing
     """;
 
 if (args.Length == 0 || args[0] is "-h" or "--help")
@@ -42,6 +45,11 @@ try
             CheckGit(context, options);
             await Build(context, options);
             await Publish(context, options);
+            if (options.ContainsKey("deploy"))
+                await Deploy(context, options);
+            break;
+        case "deploy":
+            await Deploy(context, options);
             break;
         default:
             throw new PackException($"Unknown command '{command}'{Environment.NewLine}{usage}");
@@ -140,6 +148,14 @@ static async Task Publish(Context context, Dictionary<string, string?> options)
     }
 }
 
+static async Task Deploy(Context context, Dictionary<string, string?> options)
+{
+    BisectConfig bisect = context.Config.Bisect ?? throw new PackException($"\"bisect\" is missing in {PackConfig.FileName}");
+    if (string.IsNullOrWhiteSpace(bisect.ServerId))
+        throw new PackException($"\"bisect.serverId\" is missing in {PackConfig.FileName}");
+    await new Deployer(context, bisect, options.ContainsKey("dry-run")).Run();
+}
+
 static void CheckGit(Context context, Dictionary<string, string?> options)
 {
     if (options.ContainsKey("allow-dirty"))
@@ -162,7 +178,7 @@ static string SizeMb(string path) => $"{new FileInfo(path).Length / 1024.0 / 102
 
 static Dictionary<string, string?> ParseOptions(string[] args)
 {
-    string[] flags = ["force", "dry-run", "allow-dirty"];
+    string[] flags = ["force", "dry-run", "allow-dirty", "deploy"];
     Dictionary<string, string?> options = new();
     for (int i = 0; i < args.Length; i++)
     {

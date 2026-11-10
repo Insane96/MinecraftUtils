@@ -54,7 +54,7 @@ public class Builder(Instance instance, PackConfig config, string version, strin
                 foreach (var (relative, full) in EnumerateFiles(folder))
                 {
                     // CurseForge leaves out the files it downloads itself (e.g. resource packs)
-                    if (addonFiles.Contains(relative) || config.IsExcluded(Path.GetFileName(relative)))
+                    if (addonFiles.Contains(relative) || config.IsExcluded(relative))
                         continue;
                     zip.CreateEntryFromFile(full, $"overrides/{relative}", CompressionLevel.Optimal);
                     count++;
@@ -80,7 +80,7 @@ public class Builder(Instance instance, PackConfig config, string version, strin
             foreach (var (relative, full) in EnumerateFiles(folder))
             {
                 string name = Path.GetFileName(relative);
-                if (config.IsExcluded(name))
+                if (config.IsExcluded(relative))
                     continue;
                 if (clientMods.Any(prefix => name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)))
                 {

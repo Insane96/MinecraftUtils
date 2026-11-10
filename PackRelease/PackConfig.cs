@@ -17,11 +17,15 @@ public class PackConfig
     public List<string> ClientOverrides { get; set; } = ["config", "datapacks", "resourcepacks"];
     /// <summary>Instance folders copied in the server pack.</summary>
     public List<string> ServerFolders { get; set; } = ["config", "datapacks", "defaultconfigs", "mods", "optional_datapacks", "scripts"];
-    /// <summary>File name patterns (* and ?) left out of both zips.</summary>
+    /// <summary>
+    /// Patterns (* and ?) of files left out of both zips: matched against the file name, or against the path
+    /// relative to the instance (with '/') when the pattern contains a '/', e.g. "config/spark/tmp-client/*".
+    /// </summary>
     public List<string> Exclude { get; set; } = ["*.toml.bak"];
     /// <summary>File with the name prefixes of client-only mods, left out of the server pack.</summary>
     public string ClientModsFile { get; set; } = "clientmods.txt";
     public CurseForgeConfig? CurseForge { get; set; }
+    public BisectConfig? Bisect { get; set; }
 
     public static PackConfig Load(string instancePath)
     {
@@ -39,8 +43,10 @@ public class PackConfig
         return config;
     }
 
-    public bool IsExcluded(string fileName) =>
-        Exclude.Any(pattern => FileSystemName.MatchesSimpleExpression(pattern, fileName));
+    /// <param name="relativePath">Path relative to the instance, with '/'</param>
+    public bool IsExcluded(string relativePath) =>
+        Exclude.Any(pattern => FileSystemName.MatchesSimpleExpression(pattern,
+            pattern.Contains('/') ? relativePath : Path.GetFileName(relativePath)));
 }
 
 public class PackException(string message) : Exception(message);
