@@ -302,6 +302,7 @@ public class Rclone(string host, int port, string user, string password)
     public async Task Sync(string localDir, string remoteDir, string[] flags)
     {
         obscuredPassword ??= await Obscure(password);
+        string knownHosts = await EnsureHostKey();
         // --inplace: Pterodactyl's SFTP can't rename over an existing file, so rclone's default
         // upload to a .partial file and rename fails for every file that is replaced
         await Run(["sync", localDir, $":sftp:{remoteDir}", "--stats-one-line", "--stats", "0", "--inplace", .. flags], new()
@@ -312,8 +313,41 @@ public class Rclone(string host, int port, string user, string password)
             ["RCLONE_SFTP_PASS"] = obscuredPassword,
             // Pterodactyl's SFTP has no shell and doesn't need modification times (see the sync flags)
             ["RCLONE_SFTP_SHELL_TYPE"] = "none",
-            ["RCLONE_SFTP_SET_MODTIME"] = "false"
+            ["RCLONE_SFTP_SET_MODTIME"] = "false",
+            ["RCLONE_SFTP_KNOWN_HOSTS_FILE"] = knownHosts
         });
+    }
+
+    private static readonly string KnownHostsPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PackRelease", "known_hosts");
+
+    /// <summary>
+    /// Trust on first use: the first connection to a host saves its key with ssh-keyscan, then rclone refuses
+    /// to connect if the server presents a different key.
+    /// </summary>
+    private async Task<string> EnsureHostKey()
+    {
+        string entry = port == 22 ? host : $"[{host}]:{port}";
+        if (File.Exists(KnownHostsPath) && File.ReadLines(KnownHostsPath).Any(line => line.StartsWith(entry + " ")))
+            return KnownHostsPath;
+
+        string keyscan = Path.Combine(Environment.SystemDirectory, "OpenSSH", "ssh-keyscan.exe");
+        ProcessStartInfo info = new(File.Exists(keyscan) ? keyscan : "ssh-keyscan", ["-p", port.ToString(), host])
+        {
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
+        };
+        using Process process = Process.Start(info) ?? throw new PackException("Can't start ssh-keyscan");
+        string output = await process.StandardOutput.ReadToEndAsync();
+        await process.WaitForExitAsync();
+        List<string> keys = output.Split('\n').Select(l => l.Trim()).Where(l => l.StartsWith(entry + " ")).ToList();
+        if (keys.Count == 0)
+            throw new PackException($"ssh-keyscan returned no host key for {entry}: {await process.StandardError.ReadToEndAsync()}");
+
+        Directory.CreateDirectory(Path.GetDirectoryName(KnownHostsPath)!);
+        await File.AppendAllLinesAsync(KnownHostsPath, keys);
+        Log.Info($"Saved the SFTP host key of {entry} to {KnownHostsPath}: {string.Join(", ", keys.Select(k => k.Split(' ')[1]))}");
+        return KnownHostsPath;
     }
 
     private static async Task<string> Obscure(string password)
